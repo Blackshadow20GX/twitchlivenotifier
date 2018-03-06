@@ -5,7 +5,6 @@ import time
 
 def main():
     config_path = "/config.json"
-
     rwd = os.path.dirname(os.path.realpath(__file__))
     rwd = os.path.split(rwd)[0]
 
@@ -13,12 +12,11 @@ def main():
         config = json.load(json_data)
 
     url = config['url']
-    headers = {"Client-ID": config['client_id']}
+    headers = config['headers']
 
     streamLoop(url, headers)
 
 def checkStreamStatus(url, headers):
-
     r = requests.get(url, headers=headers)
     live = r.json()["stream"]
 
@@ -27,8 +25,6 @@ def checkStreamStatus(url, headers):
     else:
         print("Stream is online!")
 
-        
-    return
 
 def streamLoop(url, headers):
     count = 1
