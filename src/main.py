@@ -8,7 +8,8 @@ from view.window import MainWindow
 def main():
 
     model = Model("/config.json")
-    url, headers = model.getConfig()
+    url, headers = model.getUrl(), model.getHeaders()
+    
     view = MainWindow()
     controller = Controller(model, view, url, headers)
 
