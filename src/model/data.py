@@ -21,5 +21,5 @@ class Model():
     def isOnline(self):
         return self.online
 
-    def setOnline(self, status):
+    def setStatus(self, status):
         self.online = status

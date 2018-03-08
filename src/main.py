@@ -9,9 +9,9 @@ def main():
 
     model = Model("/config.json")
     url, headers = model.getConfig()
-    view = MainWindow(url, headers)
-    controller = Controller(model, view)
-    
+    view = MainWindow()
+    controller = Controller(model, view, url, headers)
+
     view.displayWindow(controller)
 
 if __name__ == "__main__":

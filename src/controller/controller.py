@@ -5,17 +5,15 @@ import time
 
 class Controller():
 
-    def __init__(self, model, view):
+    def __init__(self, model, view, url, headers):
         self.model = model
         self.view = view
+        self.url = url
+        self.headers = headers
 
-    def notifier(self, url, headers):
-        self.checkStreamStatus(url, headers)
-        return None
-
-    def checkStreamStatus(self, url, headers):
-        print("Checking status of " + url + "...")
-        r = requests.get(url, headers=headers)
+    def checkStreamStatus(self):
+        print("Checking status of " + self.url + "...")
+        r = requests.get(self.url, headers=self.headers)
         status = r.json()["stream"]
 
         if(status is None):
@@ -24,9 +22,10 @@ class Controller():
             print("Stream is online!")
         
         self.setStatus(status)
+        return self.isOnline()
 
     def isOnline(self):
         return self.model.isOnline()
 
     def setStatus(self, status):
-        self.model.setOnline(status)
+        self.model.setStatus(status)

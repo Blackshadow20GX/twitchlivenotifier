@@ -6,14 +6,12 @@ import threading
 
 class MainWindow(Frame):
 
-    def __init__(self, url, headers):
+    def __init__(self):
         
         self.root = Tk()
         self.root.geometry("250x100+" + str(self.root.winfo_screenwidth() - 256) + "+0")
         #Fix this all up with actual root window not in child window
         Frame.__init__(self, self.root)
-        self.url = url
-        self.headers = headers
         self.parent = self.root #Here too
         self.notifyThread = None
 
@@ -38,10 +36,7 @@ class MainWindow(Frame):
         self.after(5000, self.start)
 
     def start(self):
-        print "Thread is " + str(self.notifyThread)
-        if(self.notifyThread is None):
-            self.notifyThread = True
-            self.notifyThread = threading.Thread(target=self.controller.notifier(self.url, self.headers)).start()
+        self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
         self.refresh()
 
     def displayWindow(self, controller):
