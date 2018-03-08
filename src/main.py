@@ -1,21 +1,15 @@
 import requests
 import json
 import os
-from controller.notifier import notifier
-from view.window import instantiate
+from model.data import Model
+from controller.controller import notifier
+from view.window import MainWindow, instantiateView
 
 def main():
-    config_path = "/config.json"
-    rwd = os.path.dirname(os.path.realpath(__file__))
-    rwd = os.path.split(rwd)[0]
 
-    with open(rwd + config_path, "r") as json_data:
-        config = json.load(json_data)
-
-    url = config['url']
-    headers = config['headers']
-
-    instantiate(url, headers)
+    model = Model("/config.json")
+    url, headers = model.getConfig()
+    instantiateView(url, headers)
 
 if __name__ == "__main__":
     main()

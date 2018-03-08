@@ -1,6 +1,6 @@
 from tkinter import Tk, Frame, Label, BOTH, END
 from PIL import ImageTk, Image
-from controller.notifier import notifier
+from controller.controller import notifier
 import os
 import threading
 
@@ -35,13 +35,14 @@ class MainWindow(Frame):
         self.after(5000, self.start)
 
     def start(self):
+        print "Thread is " + str(self.notifyThread)
         if(self.notifyThread is None):
             self.notifyThread = True
             self.notifyThread = threading.Thread(target=notifier(self.url, self.headers)).start()
         self.refresh()
 
 
-def instantiate(url, headers):
+def instantiateView(url, headers):
     root = Tk()
     root.geometry("250x100+" + str(root.winfo_screenwidth() - 256) + "+0")
     app = MainWindow(root, url, headers)
