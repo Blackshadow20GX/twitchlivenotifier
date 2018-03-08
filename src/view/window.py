@@ -13,7 +13,7 @@ class MainWindow(Frame):
         #Fix this all up with actual root window not in child window
         Frame.__init__(self, self.root)
         self.parent = self.root #Here too
-        self.notifyThread = None
+        self.notifyThread = threading.Thread()
 
         self.lbl_status = Label(self.parent, text="LIVE", width=200, height=80, background="red")
         self.lbl_status.config(font=("Calibri", 44),foreground="white")
@@ -38,7 +38,9 @@ class MainWindow(Frame):
         self.after(60000, self.checkStreamStatus)
 
     def checkStreamStatus(self):
-        self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
+        if not(self.notifyThread.isAlive()):
+            self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
+
         self.refresh()
 
     def updateStatus(self):
