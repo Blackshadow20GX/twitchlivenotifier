@@ -18,11 +18,12 @@ class Controller():
 
         if(status is None):
             print("Stream is offline :(")
+            status = False
         else:
             print("Stream is online!")
+            status = True
         
         self.setStatus(status)
-        return self.isOnline()
 
     def isOnline(self):
         return self.model.isOnline()
