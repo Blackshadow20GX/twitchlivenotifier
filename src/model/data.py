@@ -3,9 +3,9 @@ import json
 
 class Model():
 
-    def __init__(self, config_path):
+    def __init__(self, CONFIG_PATH):
         self.online = False
-        self.config_path = config_path
+        self.CONFIG_PATH = CONFIG_PATH
         self.url = None
         self.headers = None
         self.readConfig()
@@ -14,7 +14,7 @@ class Model():
         rwd = os.path.dirname(os.path.realpath(__file__))
         rwd = os.path.split(rwd)[0]
 
-        with open(rwd + self.config_path, "r") as json_data:
+        with open(rwd + self.CONFIG_PATH, "r") as json_data:
             config = json.load(json_data)
 
         self.url = config['url']
