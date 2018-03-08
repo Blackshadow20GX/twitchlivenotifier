@@ -34,7 +34,12 @@ class MainWindow(Frame):
     def refresh(self):
         self.updateStatus()
         self.update()
-        self.after(5000, self.start)
+        self.root.call('wm', 'attributes', '.', '-topmost', True)
+        self.after(60000, self.checkStreamStatus)
+
+    def checkStreamStatus(self):
+        self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
+        self.refresh()
 
     def updateStatus(self):
         live = self.controller.isOnline()
@@ -46,15 +51,10 @@ class MainWindow(Frame):
             self.lbl_status.config(text="OFFLINE", background="gray")
             self.cog.config(background="gray")
             self.pack()
-        
-
-    def start(self):
-        self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
-        self.refresh()
 
     def displayWindow(self, controller):
         self.controller = controller
         self.root.lift()
         self.root.call('wm', 'attributes', '.', '-topmost', True)
-        self.start()
+        self.checkStreamStatus()
         self.root.mainloop()
