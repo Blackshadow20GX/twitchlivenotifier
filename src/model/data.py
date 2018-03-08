@@ -17,3 +17,9 @@ class Model():
         url = config['url']
         headers = config['headers']
         return url, headers
+
+    def isOnline(self):
+        return self.online
+
+    def setOnline(self, status):
+        self.online = status

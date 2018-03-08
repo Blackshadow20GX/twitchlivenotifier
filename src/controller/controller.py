@@ -3,26 +3,30 @@ import json
 import os
 import time
 
-online = False
+class Controller():
 
-def notifier(url, headers):
-    checkStreamStatus(url, headers)
-    return None
+    def __init__(self, model, view):
+        self.model = model
+        self.view = view
 
-def checkStreamStatus(url, headers):
-    print("Checking status of " + url + "...")
-    r = requests.get(url, headers=headers)
-    live = r.json()["stream"]
+    def notifier(self, url, headers):
+        self.checkStreamStatus(url, headers)
+        return None
 
-    if(live is None):
-        print("Stream is offline :(")
-    else:
-        print("Stream is online!")
-    
-    setStatus(live)
+    def checkStreamStatus(self, url, headers):
+        print("Checking status of " + url + "...")
+        r = requests.get(url, headers=headers)
+        status = r.json()["stream"]
 
-def isOnline():
-    return online
+        if(status is None):
+            print("Stream is offline :(")
+        else:
+            print("Stream is online!")
+        
+        self.setStatus(status)
 
-def setStatus(status):
-    online = status
+    def isOnline(self):
+        return self.model.isOnline()
+
+    def setStatus(self, status):
+        self.model.setOnline(status)
