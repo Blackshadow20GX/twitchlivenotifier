@@ -5,11 +5,13 @@ from model.data import Model
 from controller.controller import Controller
 from view.window import MainWindow
 
+CONFIG_PATH = "/config.json"
+
 def main():
 
-    model = Model("/config.json")
+    model = Model(CONFIG_PATH)
     url, headers = model.getUrl(), model.getHeaders()
-    
+
     view = MainWindow()
     controller = Controller(model, view, url, headers)
 
