@@ -9,7 +9,7 @@ class MainWindow(Frame):
     def __init__(self):
         
         self.root = Tk()
-        self.root.geometry("250x100+" + str(self.root.winfo_screenwidth() - 256) + "+0")
+        self.root.geometry("250x100+" + str(self.root.winfo_screenwidth() - 250) + "+0")
         #Fix this all up with actual root window not in child window
         Frame.__init__(self, self.root)
         self.parent = self.root #Here too
@@ -29,18 +29,21 @@ class MainWindow(Frame):
         self.cog.place(rely=0, relx=1.0, x=0, y=0, anchor="ne")
 
         self.parent.title("Twitch Live Notifier")
+        self.root.bind('<B1-Motion>', self.movewindow)
+        self.root.overrideredirect(1)
         self.pack()
+
+    def movewindow(self, event):
+        self.root.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
 
     def refresh(self):
         self.updateStatus()
         self.update()
         self.root.call('wm', 'attributes', '.', '-topmost', True)
-        self.after(60000, self.checkStreamStatus)
+        self.after(5000, self.checkStreamStatus)
 
     def checkStreamStatus(self):
-        if not(self.notifyThread.isAlive()):
-            self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
-
+        self.notifyThread = threading.Thread(target=self.controller.checkStreamStatus()).start()
         self.refresh()
 
     def updateStatus(self):
