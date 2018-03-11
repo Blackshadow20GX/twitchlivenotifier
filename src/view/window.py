@@ -12,7 +12,16 @@ class MainWindow(Frame):
         self.root.geometry("250x100+" + str(self.root.winfo_screenwidth() - 250) + "+0")
         Frame.__init__(self, self.root)
         self.notifyThread = threading.Thread()
+        
+        self.initializeWidgets()
+        self.initializeEvents()
 
+        self.root.title("Twitch Live Notifier")
+        self.root.overrideredirect(1) #Removes window dressing
+
+        self.pack()
+
+    def initializeWidgets(self):
         self.lbl_status = Label(self.root, text="LIVE", width=200, height=80, background="red")
         self.lbl_status.config(font=("Calibri", 44),foreground="white")
         self.lbl_status.pack(fill=BOTH, expand=1)
@@ -26,10 +35,8 @@ class MainWindow(Frame):
         self.cog.image = img
         self.cog.place(rely=0, relx=1.0, x=0, y=0, anchor="ne")
 
-        self.root.title("Twitch Live Notifier")
+    def initializeEvents(self):
         self.root.bind('<B1-Motion>', self.movewindow)
-        self.root.overrideredirect(1)
-        self.pack()
 
     def movewindow(self, event):
         self.root.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
