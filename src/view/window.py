@@ -10,12 +10,10 @@ class MainWindow(Frame):
         
         self.root = Tk()
         self.root.geometry("250x100+" + str(self.root.winfo_screenwidth() - 250) + "+0")
-        #Fix this all up with actual root window not in child window
         Frame.__init__(self, self.root)
-        self.parent = self.root #Here too
         self.notifyThread = threading.Thread()
 
-        self.lbl_status = Label(self.parent, text="LIVE", width=200, height=80, background="red")
+        self.lbl_status = Label(self.root, text="LIVE", width=200, height=80, background="red")
         self.lbl_status.config(font=("Calibri", 44),foreground="white")
         self.lbl_status.pack(fill=BOTH, expand=1)
 
@@ -28,7 +26,7 @@ class MainWindow(Frame):
         self.cog.image = img
         self.cog.place(rely=0, relx=1.0, x=0, y=0, anchor="ne")
 
-        self.parent.title("Twitch Live Notifier")
+        self.root.title("Twitch Live Notifier")
         self.root.bind('<B1-Motion>', self.movewindow)
         self.root.overrideredirect(1)
         self.pack()
